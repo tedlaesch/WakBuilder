@@ -1,0 +1,29 @@
+<h2>Items</h2>
+<div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{item.title.en}}
+            </mat-panel-title>
+            <mat-panel-description>
+                Level: {{item.definition.item.level}}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>
+            {{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}
+        </p>
+    </mat-expansion-panel>
+</div>
+<mat-paginator #paginator
+    class="demo-paginator"
+    (page)="handlePageEvent($event)"
+    [length]="itemLength"
+    [pageSize]="pageSize"
+    [disabled]="false"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="pageSizeOptions"
+    [hidePageSize]="false"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+
+</mat-paginator>
