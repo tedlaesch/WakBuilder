@@ -4,20 +4,22 @@ import EQUIPMENTTYPES from '../datas/equipmentItemTypes.json';
 import ITEMTYPES from '../datas/itemTypes.json';
 
 import { PageEvent } from '@angular/material/paginator';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.css']
 })
+
 export class ItemListComponent {
+  constructor(private sanitizer:DomSanitizer) {}
+
   preItems = ITEMDATA as any;
   equipmentTypes = EQUIPMENTTYPES as any;
   itemTypes = ITEMTYPES as any;
 
   items = this.preItems.filter((item: { definition: { item: { baseParameters: { itemTypeId: number; }; }; }; }) => !this.isResource(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)) && !this.isPetOrMount(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)) && !this.isCosmetics(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)));
-
-
 
   itemLength = this.items.length;
   pageSize = 20;
@@ -46,6 +48,10 @@ export class ItemListComponent {
 
   getPaginatedList(start: any, end: any) {
     return this.items.slice(start, end);
+  }
+
+  getImageFromGfxId(gfxId: any) {
+    // TODO
   }
 
   getEquipTypeById(id: number) {

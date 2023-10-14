@@ -1,6 +1,20 @@
-<h1>WakBuilder</h1>
-<nav>
-  <a routerLink="/item" routerLinkActive="active" ariaCurrentWhenActive="page">Items</a>
+<mat-toolbar color="primary">
+  <button type="button" mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>WakBuilder</span>
+</mat-toolbar>
 
-</nav>
-<router-outlet></router-outlet>
+<mat-drawer-container class="main-container-drawer" autosize>
+
+  <mat-drawer #drawer mode="side">
+    <nav class="nav-container">
+      <h2 class="nav-child-head">Tools</h2>
+      <a class="nav-child" mat-flat-button color="primary" routerLink="/item" routerLinkActive="active" ariaCurrentWhenActive="page">Items</a>
+      <a class="nav-child" mat-flat-button color="primary" routerLink="/nowhere" routerLinkActive="active" ariaCurrentWhenActive="page">Dead Page</a>
+    </nav>
+  </mat-drawer>
+
+  <router-outlet></router-outlet>
+
+</mat-drawer-container>

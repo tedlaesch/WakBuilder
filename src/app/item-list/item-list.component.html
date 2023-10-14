@@ -1,19 +1,25 @@
-<h2>Items</h2>
-<div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
+<mat-toolbar>
+    <h2>Items</h2>
+    <span class="item-toolbar-spacer"></span>
+    <button mat-icon-button class="item-toolbar-search-icon" (click)="sidebar.toggle()">
+        <mat-icon>search</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-drawer-container autosize>
+    <mat-drawer #sidebar mode="side" position="end">
+        <h2>Sidebar</h2>
+    </mat-drawer>
+    <mat-grid-list cols="6">
+        <div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+            <mat-grid-tile>
+                <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png">
                 {{item.title.en}}
-            </mat-panel-title>
-            <mat-panel-description>
-                Level: {{item.definition.item.level}}
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>
-            {{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}
-        </p>
-    </mat-expansion-panel>
-</div>
+            </mat-grid-tile>
+        </div>
+    </mat-grid-list>
+</mat-drawer-container>
+
 <mat-paginator #paginator
     class="demo-paginator"
     (page)="handlePageEvent($event)"
@@ -25,5 +31,24 @@
     [hidePageSize]="false"
     [pageIndex]="pageIndex"
     aria-label="Select page">
-
 </mat-paginator>
+
+<!--
+
+<div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{item.title.en}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    Level: {{item.definition.item.level}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>
+                {{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}
+            </p>
+        </mat-expansion-panel>
+    </div>
+
+-->

@@ -38,6 +38,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatButtonModule} from '@angular/material/button';
+import {NgOptimizedImage, provideImgixLoader} from '@angular/common';
 
 const appRoutes: Routes = [
   { path: 'item', component: ItemListComponent },
@@ -83,7 +85,9 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatButtonModule,
+    NgOptimizedImage,
   ],
   providers: [],
   bootstrap: [ AppComponent ]

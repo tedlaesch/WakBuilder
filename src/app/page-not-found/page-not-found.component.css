@@ -1,0 +1,17 @@
+.not-found-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.not-found-child {
+    align-self: center;
+}
+
+.not-found-404 {
+    align-self: center;
+    font-size: 70px;
+    margin-bottom: 1em;
+}
