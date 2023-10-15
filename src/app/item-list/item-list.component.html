@@ -10,11 +10,31 @@
     <mat-drawer #sidebar mode="side" position="end">
         <h2>Sidebar</h2>
     </mat-drawer>
-    <mat-grid-list cols="6">
+    <mat-grid-list cols="6" rowHeight="1:1.25" gutterSize="0">
         <div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
             <mat-grid-tile>
-                <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png">
-                {{item.title.en}}
+                <div class="grid-tile-contents" [ngStyle]="{'border-color': getRarityColor(item.definition.item.baseParameters.rarity)}">
+                    <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png">
+                    <p style="font-size: medium; margin: 0 1em 1em 1em">{{item.title.en}}</p>
+                    <p [ngStyle]="{'color': getRarityColor(item.definition.item.baseParameters.rarity)}">{{getRarity(item.definition.item.baseParameters.rarity)}}</p>
+                    <p style="color: grey;">{{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}</p>
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="display: flex; flex-direction: column; margin-right: 2em;">
+                            <div *ngFor="let ef of getEffectColumnOne(item.definition.item.id); index as i">
+                                <p>
+                                    {{ef.effect.definition.actionId}}
+                                </p>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; margin-left: 2em;">
+                            <div *ngFor="let ef of getEffectColumnTwo(item.definition.item.id); index as i">
+                                <p>
+                                    {{ef.effect.definition.actionId}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </mat-grid-tile>
         </div>
     </mat-grid-list>

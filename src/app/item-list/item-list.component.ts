@@ -33,11 +33,6 @@ export class ItemListComponent {
     this.itemLength = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    console.log(this.itemLength);
-    console.log(this.pageSize);
-    console.log(this.pageIndex);
-    console.log(this.pageIndex * this.pageSize);
-    console.log(this.pageIndex * (this.pageSize + 1));
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
@@ -50,11 +45,78 @@ export class ItemListComponent {
     return this.items.slice(start, end);
   }
 
-  getImageFromGfxId(gfxId: any) {
-    // TODO
+  getRarity(id: number) {
+    // Takes rarity id
+    switch(id) {
+      case 0:
+        return "Common";
+      case 1:
+        return "Unusual";
+      case 2:
+        return "Rare";
+      case 3:
+        return "Mythical";
+      case 4:
+        return "Legendary";
+      case 5:
+        return "Relic";
+      case 6:
+        return "Souvenir";
+      case 7:
+        return "Epique";
+      default:
+        return "N/A";
+    }
+  }
+
+  getRarityColor(id: number) {
+    // Takes rarity id
+    switch(id) {
+      case 0:
+        return "gray";
+      case 1:
+        return "whitesmoke";
+      case 2:
+        return "springgreen";
+      case 3:
+        return "orange";
+      case 4:
+        return "khaki";
+      case 5:
+        return "fuchsia";
+      case 6:
+        return "lightskyblue";
+      case 7:
+        return "lightpink";
+      default:
+        return "red";
+    }
+  }
+
+  getEffectColumnOne(id: number) {
+    for (let item of this.items) {
+      if (item.definition.item.id == id) {
+        let effectLen = item.definition.equipEffects.length
+        let colOneLen = Math.round(effectLen/2)
+        return item.definition.equipEffects.slice(0, colOneLen)
+      }
+    }
+    return 0
+  }
+
+  getEffectColumnTwo(id: number) {
+    for (let item of this.items) {
+      if (item.definition.item.id == id) {
+        let effectLen = item.definition.equipEffects.length
+        let colOneLen = Math.round(effectLen/2)
+        return item.definition.equipEffects.slice(colOneLen, effectLen)
+      }
+    }
+    return 0
   }
 
   getEquipTypeById(id: number) {
+    // Equip id, not item id
     for (let itemType of this.itemTypes) {
       if (itemType.definition.id == id) {
         return itemType.title.en;
@@ -69,6 +131,7 @@ export class ItemListComponent {
   }
 
   getParentIdById(id: number) {
+    // Equip id, not item id
     for (let itemType of this.itemTypes) {
       if (itemType.definition.id == id) {
         return itemType.definition.parentId;
