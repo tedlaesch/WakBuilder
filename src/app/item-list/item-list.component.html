@@ -10,26 +10,26 @@
     <mat-drawer #sidebar mode="side" position="end">
         <h2>Sidebar</h2>
     </mat-drawer>
-    <mat-grid-list cols="6" rowHeight="1:1.25" gutterSize="0">
+    <mat-grid-list cols="5" rowHeight="1:1.5" gutterSize="0">
         <div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
             <mat-grid-tile>
                 <div class="grid-tile-contents" [ngStyle]="{'border-color': getRarityColor(item.definition.item.baseParameters.rarity)}">
                     <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png">
                     <p style="font-size: medium; margin: 0 1em 1em 1em">{{item.title.en}}</p>
+                    <p style="color: grey;">Level {{item.definition.item.level}} - {{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}</p>
                     <p [ngStyle]="{'color': getRarityColor(item.definition.item.baseParameters.rarity)}">{{getRarity(item.definition.item.baseParameters.rarity)}}</p>
-                    <p style="color: grey;">{{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}</p>
                     <div style="display: flex; flex-direction: row;">
-                        <div style="display: flex; flex-direction: column; margin-right: 2em;">
-                            <div *ngFor="let ef of getEffectColumnOne(item.definition.item.id); index as i">
+                        <div style="display: flex; flex-direction: column; align-items: center; margin: 0 1em 0 1em;">
+                            <div *ngFor="let ef of getEffectColumnOne(item.definition.item.id); index as i" style="text-align: center; width: 100px;">
                                 <p>
-                                    {{ef.effect.definition.actionId}}
+                                    {{getTextFromEffect(ef)}}
                                 </p>
                             </div>
                         </div>
-                        <div style="display: flex; flex-direction: column; margin-left: 2em;">
-                            <div *ngFor="let ef of getEffectColumnTwo(item.definition.item.id); index as i">
+                        <div style="display: flex; flex-direction: column; align-items: center; margin: 0 1em 0 1em;">
+                            <div *ngFor="let ef of getEffectColumnTwo(item.definition.item.id); index as i" style="text-align: center; width: 100px;">
                                 <p>
-                                    {{ef.effect.definition.actionId}}
+                                    {{getTextFromEffect(ef)}}
                                 </p>
                             </div>
                         </div>

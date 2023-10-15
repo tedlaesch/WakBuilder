@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import ITEMDATA from '../datas/items.json';
 import EQUIPMENTTYPES from '../datas/equipmentItemTypes.json';
 import ITEMTYPES from '../datas/itemTypes.json';
+import ACTIONS from '../datas/actions.json'
 
 import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
@@ -18,6 +19,7 @@ export class ItemListComponent {
   preItems = ITEMDATA as any;
   equipmentTypes = EQUIPMENTTYPES as any;
   itemTypes = ITEMTYPES as any;
+  actions = ACTIONS as any;
 
   items = this.preItems.filter((item: { definition: { item: { baseParameters: { itemTypeId: number; }; }; }; }) => !this.isResource(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)) && !this.isPetOrMount(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)) && !this.isCosmetics(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)));
 
@@ -44,6 +46,25 @@ export class ItemListComponent {
   getPaginatedList(start: any, end: any) {
     return this.items.slice(start, end);
   }
+
+  getTextFromEffect(ef: any) {
+    for (let action of this.actions) {
+      if (ef.effect.definition.actionId == action.definition.id) {
+        let templateText = action.description.en
+        let paramArr = ef.effect.definition.params
+        let acId = ef.effect.definition.actionId
+
+        if (acId == 1068) {
+          return paramArr[2] > 1 ? `${paramArr[0]} Mastery of ${paramArr[2]} random elements` : `${paramArr[0]} Mastery of ${paramArr[2]} random element`;
+        } else {
+          return templateText.replace("[#1]", paramArr[0]).replace("[el1]", "Fire").replace("[el2]", "Water").replace("[el3]", "Earth").replace("[el4]", "Air")
+        }
+      }
+    }
+  }
+
+  // {[~3]?[#1] Mastery [#3]:[#1] Mastery of [#2] random{[=2]?:} element{[=2]?:s}}
+  // {[~3]?[#1] Mastery [#3]:[#1] Mastery of [#2] random{[=2]?:} element{[=2]?:s}}
 
   getRarity(id: number) {
     // Takes rarity id
@@ -96,9 +117,13 @@ export class ItemListComponent {
   getEffectColumnOne(id: number) {
     for (let item of this.items) {
       if (item.definition.item.id == id) {
-        let effectLen = item.definition.equipEffects.length
+        let effectArr = item.definition.equipEffects
+        effectArr.sort(function(a: any, b: any) {
+          return a.effect.definition.actionId - b.effect.definition.actionId;
+        })
+        let effectLen = effectArr.length
         let colOneLen = Math.round(effectLen/2)
-        return item.definition.equipEffects.slice(0, colOneLen)
+        return effectArr.slice(0, colOneLen)
       }
     }
     return 0
@@ -107,9 +132,13 @@ export class ItemListComponent {
   getEffectColumnTwo(id: number) {
     for (let item of this.items) {
       if (item.definition.item.id == id) {
-        let effectLen = item.definition.equipEffects.length
+        let effectArr = item.definition.equipEffects
+        effectArr.sort(function(a: any, b: any) {
+          return a.effect.definition.actionId - b.effect.definition.actionId;
+        })
+        let effectLen = effectArr.length
         let colOneLen = Math.round(effectLen/2)
-        return item.definition.equipEffects.slice(colOneLen, effectLen)
+        return effectArr.slice(colOneLen, effectLen)
       }
     }
     return 0
