@@ -12,3 +12,27 @@
     min-width: 225px;
     min-height: 225px;
 }
+
+.effect-container {
+    width: 225px;
+}
+
+.search-sidebar {
+    width: 225px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 1.5em;
+}
+
+.level-search-input {
+    background-color: #4a4a4a;
+    color: lightgray;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    border-bottom-style: solid;
+    text-align: center;
+    padding: 2px 5px 2px 5px;
+}

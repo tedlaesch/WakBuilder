@@ -3,6 +3,7 @@ import ITEMDATA from '../datas/items.json';
 import EQUIPMENTTYPES from '../datas/equipmentItemTypes.json';
 import ITEMTYPES from '../datas/itemTypes.json';
 import ACTIONS from '../datas/actions.json'
+import JOBS from '../datas/recipeCategories.json'
 
 import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
@@ -20,6 +21,7 @@ export class ItemListComponent {
   equipmentTypes = EQUIPMENTTYPES as any;
   itemTypes = ITEMTYPES as any;
   actions = ACTIONS as any;
+  jobs = JOBS as any;
 
   items = this.preItems.filter((item: { definition: { item: { baseParameters: { itemTypeId: number; }; }; }; }) => !this.isResource(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)) && !this.isPetOrMount(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)) && !this.isCosmetics(this.getParentIdById(item.definition.item.baseParameters.itemTypeId)));
 
@@ -27,6 +29,9 @@ export class ItemListComponent {
   pageSize = 20;
   pageIndex = 0;
   pageSizeOptions = [20, 50, 100];
+
+  levelSliderStartValue = 0;
+  levelSliderEndValue = 230;
 
   pageEvent: PageEvent = new PageEvent;
 
@@ -47,24 +52,64 @@ export class ItemListComponent {
     return this.items.slice(start, end);
   }
 
+  getPaginatedHeight() {
+    let pageArr = this.items.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
+    let biggestLen = 0;
+    for (let i of pageArr) {
+      if (i.definition.equipEffects.length > biggestLen) {
+        biggestLen = i.definition.equipEffects.length;
+      }
+    }
+    let newHeight = ((biggestLen + 4) * 20) + 215;
+    return newHeight;
+  }
+
+  getLevelFromId(id: any) {
+    for (let item of this.items) {
+      if (item.definition.item.id == id) {
+        if (id == 12195) {
+          return 100;
+        }
+        return item.definition.item.level;
+      }
+    }
+    return id;
+  }
+
   getTextFromEffect(ef: any) {
     for (let action of this.actions) {
       if (ef.effect.definition.actionId == action.definition.id) {
-        let templateText = action.description.en
-        let paramArr = ef.effect.definition.params
-        let acId = ef.effect.definition.actionId
+        let paramArr = ef.effect.definition.params;
+        let acId = ef.effect.definition.actionId;
 
         if (acId == 1068) {
           return paramArr[2] > 1 ? `${paramArr[0]} Mastery of ${paramArr[2]} random elements` : `${paramArr[0]} Mastery of ${paramArr[2]} random element`;
-        } else {
-          return templateText.replace("[#1]", paramArr[0]).replace("[el1]", "Fire").replace("[el2]", "Water").replace("[el3]", "Earth").replace("[el4]", "Air")
+        } else if (acId == 42) {
+          return `-${paramArr[0]} MP`;
+        } else if (acId == 1069) {
+          return paramArr[2] > 1 ? `${paramArr[0]} Resistance to ${paramArr[2]} random elements` : `${paramArr[0]} Resistance to ${paramArr[2]} random element`;
+        } else if (acId == 39) {
+          return `${paramArr[0]}% Armor given`;
+        } else if (acId == 2001) {
+          return `${paramArr[0]}% Harvesting Quantity in ${this.getJobTypeById(paramArr[2])}`;
+        } else if (acId == 21) {
+          return `-${paramArr[0]} Health Points`;
+        } else if (acId == 400) {
+          return "err";
+        } else if (acId == 1020) {
+          return ef.effect.description.en.replace("|[#7.3]*100|", "10");
+        }
+        else {
+          try {
+            return action.description.en.replace("[#1]", paramArr[0]).replace("[el1]", "Fire").replace("[el2]", "Water").replace("[el3]", "Earth").replace("[el4]", "Air")
+          } catch {
+            return `!!! Error in actionID ${acId} !!!`
+          }
+          //return action.description.en.replace("[#1]", paramArr[0]).replace("[el1]", "Fire").replace("[el2]", "Water").replace("[el3]", "Earth").replace("[el4]", "Air")
         }
       }
     }
   }
-
-  // {[~3]?[#1] Mastery [#3]:[#1] Mastery of [#2] random{[=2]?:} element{[=2]?:s}}
-  // {[~3]?[#1] Mastery [#3]:[#1] Mastery of [#2] random{[=2]?:} element{[=2]?:s}}
 
   getRarity(id: number) {
     // Takes rarity id
@@ -114,34 +159,30 @@ export class ItemListComponent {
     }
   }
 
-  getEffectColumnOne(id: number) {
+  isEven(n: number) {
+      return n % 2 == 0;
+  }
+
+  getEffects(id: number) {
     for (let item of this.items) {
       if (item.definition.item.id == id) {
         let effectArr = item.definition.equipEffects
         effectArr.sort(function(a: any, b: any) {
           return a.effect.definition.actionId - b.effect.definition.actionId;
         })
-        let effectLen = effectArr.length
-        let colOneLen = Math.round(effectLen/2)
-        return effectArr.slice(0, colOneLen)
+        return effectArr
       }
     }
     return 0
   }
 
-  getEffectColumnTwo(id: number) {
-    for (let item of this.items) {
-      if (item.definition.item.id == id) {
-        let effectArr = item.definition.equipEffects
-        effectArr.sort(function(a: any, b: any) {
-          return a.effect.definition.actionId - b.effect.definition.actionId;
-        })
-        let effectLen = effectArr.length
-        let colOneLen = Math.round(effectLen/2)
-        return effectArr.slice(colOneLen, effectLen)
+  getJobTypeById(id: number) {
+    for (let job of this.jobs) {
+      if (job.definition.id == id) {
+        return job.title.en;
       }
     }
-    return 0
+    return id;
   }
 
   getEquipTypeById(id: number) {
