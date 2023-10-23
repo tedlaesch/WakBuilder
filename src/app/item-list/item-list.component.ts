@@ -127,7 +127,9 @@ export class ItemListComponent {
     1062,
 
     71,
-    1063
+    1063,
+
+    304
   ];
 
   attList:string[] = [
