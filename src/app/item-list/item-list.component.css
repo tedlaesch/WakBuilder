@@ -36,3 +36,26 @@
     text-align: center;
     padding: 2px 5px 2px 5px;
 }
+
+.title-link {
+    font-size: medium;
+    text-align: center;
+    max-width: 193px;
+    text-decoration: none;
+    margin-bottom: 1em;
+}
+
+.title-link:link {
+    color: white;
+    text-decoration: none;
+}
+
+.title-link:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.title-link:hover {
+    color: gray;
+    text-decoration: none;
+}

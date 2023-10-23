@@ -205,6 +205,28 @@ export class ItemListComponent {
     return newHeight;
   }
 
+  getLinkFromId(id: any) {
+    for (let item of this.itemSource) {
+      if (id == item.definition.item.id) {
+        let itemType = item.definition.item.baseParameters.itemTypeId;
+        let itemId = item.definition.item.id;
+        if (this.isArmor(this.getParentIdById(itemType))) {
+          return `https://www.wakfu.com/en/mmorpg/encyclopedia/armors/${itemId}`;
+        } else if (this.isWeapon(this.getParentIdById(itemType))) {
+          return `https://www.wakfu.com/en/mmorpg/encyclopedia/weapons/${itemId}`;
+        } else if (this.isPet(itemType)) {
+          return `https://www.wakfu.com/en/mmorpg/encyclopedia/pets/${itemId}`;
+        } else if (this.isMount(itemType)) {
+          return `https://www.wakfu.com/en/mmorpg/encyclopedia/mounts/${itemId}`;
+        } else if (this.isAccessory(this.getParentIdById(itemType))) {
+          return `https://www.wakfu.com/en/mmorpg/encyclopedia/accessories/${itemId}`;
+        }
+        return `https://www.wakfu.com/en/mmorpg/encyclopedia/${itemId}`;
+      }
+    }
+    return 0;
+  }
+
   applySearch(text: string, levelStart: any, levelEnd: any, typeArr: any, rarityArr: any) {
     /*
     helmet

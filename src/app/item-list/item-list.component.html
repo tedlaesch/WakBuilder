@@ -362,7 +362,7 @@
             <mat-grid-tile>
                 <div class="grid-tile-contents" [ngStyle]="{'border-color': getRarityColor(item.definition.item.baseParameters.rarity)}">
                     <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png" onerror="this.src='assets/missing_image.svg'">
-                    <p style="font-size: medium; text-align: center; max-width: 193px;">{{item.title.en}}</p>
+                    <a class="title-link" href="{{getLinkFromId(item.definition.item.id)}}">{{item.title.en}}</a>
                     <p style="color: grey;">Level {{getLevelFromId(item.definition.item.id)}} - {{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}</p>
                     <p [ngStyle]="{'color': getRarityColor(item.definition.item.baseParameters.rarity)}">{{getRarity(item.definition.item.baseParameters.rarity)}}</p>
 
