@@ -7,41 +7,373 @@
     </button>
 </mat-toolbar>
 
-<mat-drawer-container autosize>
+<mat-drawer-container autosize style="min-height: calc(100vh - 184px);">
     <mat-drawer #sidebar mode="side" position="end">
         <div class="search-sidebar">
             <mat-form-field>
                 <mat-label>Search</mat-label>
-                <input matInput>
+                <input matInput #searchField (keyup)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
             </mat-form-field>
-            <mat-slider min="0" max="230">
-                <input #levelsliderstart [(ngModel)]="levelSliderStartValue" matSliderStartThumb>
-                <input #levelsliderend [(ngModel)]="levelSliderEndValue" matSliderEndThumb>
+            <mat-slider min="0" max="230" step="5" showTickMarks="false" color="accent">
+                <input #levelsliderstart [(ngModel)]="levelSliderStartValue" matSliderStartThumb (valueChange)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                <input #levelsliderend [(ngModel)]="levelSliderEndValue" matSliderEndThumb (valueChange)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
             </mat-slider>
             <div style="display: flex; flex-direction: row;">
                 <input matInput [(ngModel)]="levelSliderStartValue" style="width: 2em;" class="level-search-input">
                 <span class="item-toolbar-spacer"></span>
                 <input matInput [(ngModel)]="levelSliderEndValue" style="width: 2em;" class="level-search-input">
             </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <mat-button-toggle-group style="margin: 2em 0 0 0;" multiple (change)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                    <mat-button-toggle #common matTooltip="Unusual" matTooltipPosition="above">
+                        <img src="assets/common.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #rare matTooltip="Rare" matTooltipPosition="above">
+                        <img src="assets/rare.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #mythic matTooltip="Mythic" matTooltipPosition="above">
+                        <img src="assets/mythic.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #legendary matTooltip="Legendary" matTooltipPosition="above">
+                        <img src="assets/legendary.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #relic matTooltip="Relic" matTooltipPosition="above">
+                        <img src="assets/relic.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #souvenir matTooltip="Souvenir" matTooltipPosition="above">
+                        <img src="assets/memory.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #epic matTooltip="Epic" matTooltipPosition="above">
+                        <img src="assets/epic.png">
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <mat-button-toggle-group style="margin: 2em 0 0 0;" multiple (change)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                    <mat-button-toggle #helmet matTooltip="Helmet" matTooltipPosition="above">
+                        <img src="assets/helmet.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #amulet matTooltip="Amulet" matTooltipPosition="above">
+                        <img src="assets/necklace.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #breastplate matTooltip="Breastplate" matTooltipPosition="above">
+                        <img src="assets/breastplate.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #ring matTooltip="Ring" matTooltipPosition="above">
+                        <img src="assets/ring.png">
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <mat-button-toggle-group style="margin: 0.5em 0 0 0;" multiple (change)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                    <mat-button-toggle #boots matTooltip="Boots" matTooltipPosition="above">
+                        <img src="assets/boots.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #cape matTooltip="Cape" matTooltipPosition="above">
+                        <img src="assets/cape.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #epaulettes matTooltip="Epaulettes" matTooltipPosition="above">
+                        <img src="assets/epaulettes.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #belt matTooltip="Belt" matTooltipPosition="above">
+                        <img src="assets/belt.png">
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <mat-button-toggle-group style="margin: 0.5em 0 0 0;" multiple (change)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                    <mat-button-toggle #onehand matTooltip="One Handed Weapon" matTooltipPosition="above">
+                        <img src="assets/one_handed_weapon.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #twohand matTooltip="Two Handed Weapon" matTooltipPosition="above">
+                        <img src="assets/two_handed_weapon.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #otherhand matTooltip="Other Hand Weapon" matTooltipPosition="above">
+                        <img src="assets/shield.png">
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <mat-button-toggle-group style="margin: 0.5em 0 0 0;" multiple (change)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                    <mat-button-toggle #mount matTooltip="Mount" matTooltipPosition="above">
+                        <img src="assets/mount.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #pet matTooltip="Pet" matTooltipPosition="above">
+                        <img src="assets/pet.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #emblem matTooltip="Emblem" matTooltipPosition="above">
+                        <img src="assets/emblem.png">
+                    </mat-button-toggle>
+                    <mat-button-toggle #tool matTooltip="Tool" matTooltipPosition="above">
+                        <img src="assets/tools.png">
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
+            <mat-form-field style="margin: 2em 0 0 0;">
+                <mat-label>Attributes</mat-label>
+                <mat-select [(ngModel)]="selectedAtts" multiple (selectionChange)="applySearch(
+                    searchField.value, 
+                    levelsliderstart.value, 
+                    levelsliderend.value,
+                    [helmet.checked,
+                    amulet.checked,
+                    breastplate.checked,
+                    ring.checked,
+                    boots.checked,
+                    cape.checked,
+                    epaulettes.checked,
+                    belt.checked,
+                    onehand.checked,
+                    twohand.checked,
+                    otherhand.checked,
+                    mount.checked,
+                    pet.checked,
+                    emblem.checked,
+                    tool.checked],
+                    [common.checked,
+                    rare.checked,
+                    mythic.checked,
+                    legendary.checked,
+                    relic.checked,
+                    souvenir.checked,
+                    epic.checked,
+                    ]
+                    )">
+                    <mat-option *ngFor="let att of attList" [value]="att">{{att}}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </mat-drawer>
     <mat-grid-list cols="5" rowHeight="{{verboseToggle.checked ? getPaginatedHeight() : '1:1'}}" gutterSize="0">
         <div *ngFor="let item of getPaginatedList(pageIndex * pageSize, (pageIndex + 1) * pageSize)">
             <mat-grid-tile>
                 <div class="grid-tile-contents" [ngStyle]="{'border-color': getRarityColor(item.definition.item.baseParameters.rarity)}">
-                    <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png">
+                    <img src="assets/{{item.definition.item.graphicParameters.gfxId}}.png" onerror="this.src='assets/missing_image.svg'">
                     <p style="font-size: medium; text-align: center; max-width: 193px;">{{item.title.en}}</p>
                     <p style="color: grey;">Level {{getLevelFromId(item.definition.item.id)}} - {{getEquipTypeById(item.definition.item.baseParameters.itemTypeId)}}</p>
                     <p [ngStyle]="{'color': getRarityColor(item.definition.item.baseParameters.rarity)}">{{getRarity(item.definition.item.baseParameters.rarity)}}</p>
 
-                    <div style="display: flex; flex-direction: column; align-items: center;" *ngIf="verboseToggle.checked">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: end;" *ngIf="verboseToggle.checked">
                         <div *ngFor="let ef of getEffects(item.definition.item.id); index as i" class="effect-container" [ngStyle]="{
                             'background': isEven(i) ? 'grey' : 'dimgrey',
                             'border-bottom-left-radius': i == getEffects(item.definition.item.id).length - 1 ? '17px' : '0px',
                             'border-bottom-right-radius': i == getEffects(item.definition.item.id).length - 1 ? '17px' : '0px'
                         }">
-                            <p style="margin: 0 12px 0 12px; font-size: small;" *ngIf="ef.effect.definition.actionId != 400">
-                                {{getTextFromEffect(ef)}}
+                            <p style="margin: 0 12px 0 12px; font-size: small;">
+                                {{getTextFromEffect(ef, item)}}
                             </p>
                         </div>
                     </div>

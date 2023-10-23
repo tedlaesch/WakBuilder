@@ -40,6 +40,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import {NgOptimizedImage, provideImgixLoader} from '@angular/common';
+import { AboutComponent } from './about/about.component';
 
 const appRoutes: Routes = [
   { path: 'item', component: ItemListComponent },
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
     AppComponent,
     ItemListComponent,
     PageNotFoundComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
